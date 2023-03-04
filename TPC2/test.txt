@@ -1,0 +1,15 @@
+> 1; á; f
+cat: Anatomía
+[es]: ala
+[en]: wing
+[pt]: asa
+[la]: ala
+
+> 4; abdome agudo; m
+cat: Semioloxía
+[es]: abdomen agudo
+[en]: acute abdomen
+[pt]: abdome agudo; abdômen agudo [Br.]; abdómen agudo [Pt.]
+
+# abdome distendido
+vid:abdome globuloso
