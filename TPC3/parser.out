@@ -1,0 +1,571 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> entries
+Rule 1     entries -> entry ENTRY_SEP entries
+Rule 2     entries -> entry
+Rule 3     entry -> OPEN_FULL full_entry
+Rule 4     entry -> OPEN_REM rem_entry
+Rule 5     full_entry -> INDEX SEPARATOR TEXT SEPARATOR TEXT NEWLINE full_elements
+Rule 6     full_elements -> full_element remaining_elements
+Rule 7     remaining_elements -> NEWLINE full_element remaining_elements
+Rule 8     remaining_elements -> <empty>
+Rule 9     full_element -> OPEN_CAT text_list
+Rule 10    full_element -> OPEN_SIN text_list
+Rule 11    full_element -> OPEN_VAR text_list
+Rule 12    full_element -> [ OPEN_LANG ] : translation_list
+Rule 13    full_element -> OPEN_NOTE TEXT
+Rule 14    text_list -> TEXT SEPARATOR text_list
+Rule 15    text_list -> TEXT
+Rule 16    translation_list -> TEXT [ OPEN_LANG ] remaining_translations
+Rule 17    translation_list -> TEXT remaining_translations
+Rule 18    remaining_translations -> SEPARATOR TEXT [ OPEN_LANG ] remaining_translations
+Rule 19    remaining_translations -> SEPARATOR TEXT remaining_translations
+Rule 20    remaining_translations -> <empty>
+Rule 21    rem_entry -> TEXT NEWLINE OPEN_VID text_list
+
+Terminals, with rules where they appear
+
+:                    : 12
+ENTRY_SEP            : 1
+INDEX                : 5
+NEWLINE              : 5 7 21
+OPEN_CAT             : 9
+OPEN_FULL            : 3
+OPEN_LANG            : 12 16 18
+OPEN_NOTE            : 13
+OPEN_REM             : 4
+OPEN_SIN             : 10
+OPEN_VAR             : 11
+OPEN_VID             : 21
+SEPARATOR            : 5 5 14 18 19
+TEXT                 : 5 5 13 14 15 16 17 18 19 21
+[                    : 12 16 18
+]                    : 12 16 18
+error                : 
+
+Nonterminals, with rules where they appear
+
+entries              : 1 0
+entry                : 1 2
+full_element         : 6 7
+full_elements        : 5
+full_entry           : 3
+rem_entry            : 4
+remaining_elements   : 6 7
+remaining_translations : 16 17 18 19
+text_list            : 9 10 11 14 21
+translation_list     : 12
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . entries
+    (1) entries -> . entry ENTRY_SEP entries
+    (2) entries -> . entry
+    (3) entry -> . OPEN_FULL full_entry
+    (4) entry -> . OPEN_REM rem_entry
+
+    OPEN_FULL       shift and go to state 3
+    OPEN_REM        shift and go to state 4
+
+    entries                        shift and go to state 1
+    entry                          shift and go to state 2
+
+state 1
+
+    (0) S' -> entries .
+
+
+
+state 2
+
+    (1) entries -> entry . ENTRY_SEP entries
+    (2) entries -> entry .
+
+    ENTRY_SEP       shift and go to state 5
+    $end            reduce using rule 2 (entries -> entry .)
+
+
+state 3
+
+    (3) entry -> OPEN_FULL . full_entry
+    (5) full_entry -> . INDEX SEPARATOR TEXT SEPARATOR TEXT NEWLINE full_elements
+
+    INDEX           shift and go to state 7
+
+    full_entry                     shift and go to state 6
+
+state 4
+
+    (4) entry -> OPEN_REM . rem_entry
+    (21) rem_entry -> . TEXT NEWLINE OPEN_VID text_list
+
+    TEXT            shift and go to state 9
+
+    rem_entry                      shift and go to state 8
+
+state 5
+
+    (1) entries -> entry ENTRY_SEP . entries
+    (1) entries -> . entry ENTRY_SEP entries
+    (2) entries -> . entry
+    (3) entry -> . OPEN_FULL full_entry
+    (4) entry -> . OPEN_REM rem_entry
+
+    OPEN_FULL       shift and go to state 3
+    OPEN_REM        shift and go to state 4
+
+    entry                          shift and go to state 2
+    entries                        shift and go to state 10
+
+state 6
+
+    (3) entry -> OPEN_FULL full_entry .
+
+    ENTRY_SEP       reduce using rule 3 (entry -> OPEN_FULL full_entry .)
+    $end            reduce using rule 3 (entry -> OPEN_FULL full_entry .)
+
+
+state 7
+
+    (5) full_entry -> INDEX . SEPARATOR TEXT SEPARATOR TEXT NEWLINE full_elements
+
+    SEPARATOR       shift and go to state 11
+
+
+state 8
+
+    (4) entry -> OPEN_REM rem_entry .
+
+    ENTRY_SEP       reduce using rule 4 (entry -> OPEN_REM rem_entry .)
+    $end            reduce using rule 4 (entry -> OPEN_REM rem_entry .)
+
+
+state 9
+
+    (21) rem_entry -> TEXT . NEWLINE OPEN_VID text_list
+
+    NEWLINE         shift and go to state 12
+
+
+state 10
+
+    (1) entries -> entry ENTRY_SEP entries .
+
+    $end            reduce using rule 1 (entries -> entry ENTRY_SEP entries .)
+
+
+state 11
+
+    (5) full_entry -> INDEX SEPARATOR . TEXT SEPARATOR TEXT NEWLINE full_elements
+
+    TEXT            shift and go to state 13
+
+
+state 12
+
+    (21) rem_entry -> TEXT NEWLINE . OPEN_VID text_list
+
+    OPEN_VID        shift and go to state 14
+
+
+state 13
+
+    (5) full_entry -> INDEX SEPARATOR TEXT . SEPARATOR TEXT NEWLINE full_elements
+
+    SEPARATOR       shift and go to state 15
+
+
+state 14
+
+    (21) rem_entry -> TEXT NEWLINE OPEN_VID . text_list
+    (14) text_list -> . TEXT SEPARATOR text_list
+    (15) text_list -> . TEXT
+
+    TEXT            shift and go to state 16
+
+    text_list                      shift and go to state 17
+
+state 15
+
+    (5) full_entry -> INDEX SEPARATOR TEXT SEPARATOR . TEXT NEWLINE full_elements
+
+    TEXT            shift and go to state 18
+
+
+state 16
+
+    (14) text_list -> TEXT . SEPARATOR text_list
+    (15) text_list -> TEXT .
+
+    SEPARATOR       shift and go to state 19
+    ENTRY_SEP       reduce using rule 15 (text_list -> TEXT .)
+    $end            reduce using rule 15 (text_list -> TEXT .)
+    NEWLINE         reduce using rule 15 (text_list -> TEXT .)
+
+
+state 17
+
+    (21) rem_entry -> TEXT NEWLINE OPEN_VID text_list .
+
+    ENTRY_SEP       reduce using rule 21 (rem_entry -> TEXT NEWLINE OPEN_VID text_list .)
+    $end            reduce using rule 21 (rem_entry -> TEXT NEWLINE OPEN_VID text_list .)
+
+
+state 18
+
+    (5) full_entry -> INDEX SEPARATOR TEXT SEPARATOR TEXT . NEWLINE full_elements
+
+    NEWLINE         shift and go to state 20
+
+
+state 19
+
+    (14) text_list -> TEXT SEPARATOR . text_list
+    (14) text_list -> . TEXT SEPARATOR text_list
+    (15) text_list -> . TEXT
+
+    TEXT            shift and go to state 16
+
+    text_list                      shift and go to state 21
+
+state 20
+
+    (5) full_entry -> INDEX SEPARATOR TEXT SEPARATOR TEXT NEWLINE . full_elements
+    (6) full_elements -> . full_element remaining_elements
+    (9) full_element -> . OPEN_CAT text_list
+    (10) full_element -> . OPEN_SIN text_list
+    (11) full_element -> . OPEN_VAR text_list
+    (12) full_element -> . [ OPEN_LANG ] : translation_list
+    (13) full_element -> . OPEN_NOTE TEXT
+
+    OPEN_CAT        shift and go to state 24
+    OPEN_SIN        shift and go to state 25
+    OPEN_VAR        shift and go to state 26
+    [               shift and go to state 27
+    OPEN_NOTE       shift and go to state 28
+
+    full_elements                  shift and go to state 22
+    full_element                   shift and go to state 23
+
+state 21
+
+    (14) text_list -> TEXT SEPARATOR text_list .
+
+    ENTRY_SEP       reduce using rule 14 (text_list -> TEXT SEPARATOR text_list .)
+    $end            reduce using rule 14 (text_list -> TEXT SEPARATOR text_list .)
+    NEWLINE         reduce using rule 14 (text_list -> TEXT SEPARATOR text_list .)
+
+
+state 22
+
+    (5) full_entry -> INDEX SEPARATOR TEXT SEPARATOR TEXT NEWLINE full_elements .
+
+    ENTRY_SEP       reduce using rule 5 (full_entry -> INDEX SEPARATOR TEXT SEPARATOR TEXT NEWLINE full_elements .)
+    $end            reduce using rule 5 (full_entry -> INDEX SEPARATOR TEXT SEPARATOR TEXT NEWLINE full_elements .)
+
+
+state 23
+
+    (6) full_elements -> full_element . remaining_elements
+    (7) remaining_elements -> . NEWLINE full_element remaining_elements
+    (8) remaining_elements -> .
+
+    NEWLINE         shift and go to state 30
+    ENTRY_SEP       reduce using rule 8 (remaining_elements -> .)
+    $end            reduce using rule 8 (remaining_elements -> .)
+
+    remaining_elements             shift and go to state 29
+
+state 24
+
+    (9) full_element -> OPEN_CAT . text_list
+    (14) text_list -> . TEXT SEPARATOR text_list
+    (15) text_list -> . TEXT
+
+    TEXT            shift and go to state 16
+
+    text_list                      shift and go to state 31
+
+state 25
+
+    (10) full_element -> OPEN_SIN . text_list
+    (14) text_list -> . TEXT SEPARATOR text_list
+    (15) text_list -> . TEXT
+
+    TEXT            shift and go to state 16
+
+    text_list                      shift and go to state 32
+
+state 26
+
+    (11) full_element -> OPEN_VAR . text_list
+    (14) text_list -> . TEXT SEPARATOR text_list
+    (15) text_list -> . TEXT
+
+    TEXT            shift and go to state 16
+
+    text_list                      shift and go to state 33
+
+state 27
+
+    (12) full_element -> [ . OPEN_LANG ] : translation_list
+
+    OPEN_LANG       shift and go to state 34
+
+
+state 28
+
+    (13) full_element -> OPEN_NOTE . TEXT
+
+    TEXT            shift and go to state 35
+
+
+state 29
+
+    (6) full_elements -> full_element remaining_elements .
+
+    ENTRY_SEP       reduce using rule 6 (full_elements -> full_element remaining_elements .)
+    $end            reduce using rule 6 (full_elements -> full_element remaining_elements .)
+
+
+state 30
+
+    (7) remaining_elements -> NEWLINE . full_element remaining_elements
+    (9) full_element -> . OPEN_CAT text_list
+    (10) full_element -> . OPEN_SIN text_list
+    (11) full_element -> . OPEN_VAR text_list
+    (12) full_element -> . [ OPEN_LANG ] : translation_list
+    (13) full_element -> . OPEN_NOTE TEXT
+
+    OPEN_CAT        shift and go to state 24
+    OPEN_SIN        shift and go to state 25
+    OPEN_VAR        shift and go to state 26
+    [               shift and go to state 27
+    OPEN_NOTE       shift and go to state 28
+
+    full_element                   shift and go to state 36
+
+state 31
+
+    (9) full_element -> OPEN_CAT text_list .
+
+    NEWLINE         reduce using rule 9 (full_element -> OPEN_CAT text_list .)
+    ENTRY_SEP       reduce using rule 9 (full_element -> OPEN_CAT text_list .)
+    $end            reduce using rule 9 (full_element -> OPEN_CAT text_list .)
+
+
+state 32
+
+    (10) full_element -> OPEN_SIN text_list .
+
+    NEWLINE         reduce using rule 10 (full_element -> OPEN_SIN text_list .)
+    ENTRY_SEP       reduce using rule 10 (full_element -> OPEN_SIN text_list .)
+    $end            reduce using rule 10 (full_element -> OPEN_SIN text_list .)
+
+
+state 33
+
+    (11) full_element -> OPEN_VAR text_list .
+
+    NEWLINE         reduce using rule 11 (full_element -> OPEN_VAR text_list .)
+    ENTRY_SEP       reduce using rule 11 (full_element -> OPEN_VAR text_list .)
+    $end            reduce using rule 11 (full_element -> OPEN_VAR text_list .)
+
+
+state 34
+
+    (12) full_element -> [ OPEN_LANG . ] : translation_list
+
+    ]               shift and go to state 37
+
+
+state 35
+
+    (13) full_element -> OPEN_NOTE TEXT .
+
+    NEWLINE         reduce using rule 13 (full_element -> OPEN_NOTE TEXT .)
+    ENTRY_SEP       reduce using rule 13 (full_element -> OPEN_NOTE TEXT .)
+    $end            reduce using rule 13 (full_element -> OPEN_NOTE TEXT .)
+
+
+state 36
+
+    (7) remaining_elements -> NEWLINE full_element . remaining_elements
+    (7) remaining_elements -> . NEWLINE full_element remaining_elements
+    (8) remaining_elements -> .
+
+    NEWLINE         shift and go to state 30
+    ENTRY_SEP       reduce using rule 8 (remaining_elements -> .)
+    $end            reduce using rule 8 (remaining_elements -> .)
+
+    remaining_elements             shift and go to state 38
+
+state 37
+
+    (12) full_element -> [ OPEN_LANG ] . : translation_list
+
+    :               shift and go to state 39
+
+
+state 38
+
+    (7) remaining_elements -> NEWLINE full_element remaining_elements .
+
+    ENTRY_SEP       reduce using rule 7 (remaining_elements -> NEWLINE full_element remaining_elements .)
+    $end            reduce using rule 7 (remaining_elements -> NEWLINE full_element remaining_elements .)
+
+
+state 39
+
+    (12) full_element -> [ OPEN_LANG ] : . translation_list
+    (16) translation_list -> . TEXT [ OPEN_LANG ] remaining_translations
+    (17) translation_list -> . TEXT remaining_translations
+
+    TEXT            shift and go to state 41
+
+    translation_list               shift and go to state 40
+
+state 40
+
+    (12) full_element -> [ OPEN_LANG ] : translation_list .
+
+    NEWLINE         reduce using rule 12 (full_element -> [ OPEN_LANG ] : translation_list .)
+    ENTRY_SEP       reduce using rule 12 (full_element -> [ OPEN_LANG ] : translation_list .)
+    $end            reduce using rule 12 (full_element -> [ OPEN_LANG ] : translation_list .)
+
+
+state 41
+
+    (16) translation_list -> TEXT . [ OPEN_LANG ] remaining_translations
+    (17) translation_list -> TEXT . remaining_translations
+    (18) remaining_translations -> . SEPARATOR TEXT [ OPEN_LANG ] remaining_translations
+    (19) remaining_translations -> . SEPARATOR TEXT remaining_translations
+    (20) remaining_translations -> .
+
+    [               shift and go to state 42
+    SEPARATOR       shift and go to state 44
+    NEWLINE         reduce using rule 20 (remaining_translations -> .)
+    ENTRY_SEP       reduce using rule 20 (remaining_translations -> .)
+    $end            reduce using rule 20 (remaining_translations -> .)
+
+    remaining_translations         shift and go to state 43
+
+state 42
+
+    (16) translation_list -> TEXT [ . OPEN_LANG ] remaining_translations
+
+    OPEN_LANG       shift and go to state 45
+
+
+state 43
+
+    (17) translation_list -> TEXT remaining_translations .
+
+    NEWLINE         reduce using rule 17 (translation_list -> TEXT remaining_translations .)
+    ENTRY_SEP       reduce using rule 17 (translation_list -> TEXT remaining_translations .)
+    $end            reduce using rule 17 (translation_list -> TEXT remaining_translations .)
+
+
+state 44
+
+    (18) remaining_translations -> SEPARATOR . TEXT [ OPEN_LANG ] remaining_translations
+    (19) remaining_translations -> SEPARATOR . TEXT remaining_translations
+
+    TEXT            shift and go to state 46
+
+
+state 45
+
+    (16) translation_list -> TEXT [ OPEN_LANG . ] remaining_translations
+
+    ]               shift and go to state 47
+
+
+state 46
+
+    (18) remaining_translations -> SEPARATOR TEXT . [ OPEN_LANG ] remaining_translations
+    (19) remaining_translations -> SEPARATOR TEXT . remaining_translations
+    (18) remaining_translations -> . SEPARATOR TEXT [ OPEN_LANG ] remaining_translations
+    (19) remaining_translations -> . SEPARATOR TEXT remaining_translations
+    (20) remaining_translations -> .
+
+    [               shift and go to state 48
+    SEPARATOR       shift and go to state 44
+    NEWLINE         reduce using rule 20 (remaining_translations -> .)
+    ENTRY_SEP       reduce using rule 20 (remaining_translations -> .)
+    $end            reduce using rule 20 (remaining_translations -> .)
+
+    remaining_translations         shift and go to state 49
+
+state 47
+
+    (16) translation_list -> TEXT [ OPEN_LANG ] . remaining_translations
+    (18) remaining_translations -> . SEPARATOR TEXT [ OPEN_LANG ] remaining_translations
+    (19) remaining_translations -> . SEPARATOR TEXT remaining_translations
+    (20) remaining_translations -> .
+
+    SEPARATOR       shift and go to state 44
+    NEWLINE         reduce using rule 20 (remaining_translations -> .)
+    ENTRY_SEP       reduce using rule 20 (remaining_translations -> .)
+    $end            reduce using rule 20 (remaining_translations -> .)
+
+    remaining_translations         shift and go to state 50
+
+state 48
+
+    (18) remaining_translations -> SEPARATOR TEXT [ . OPEN_LANG ] remaining_translations
+
+    OPEN_LANG       shift and go to state 51
+
+
+state 49
+
+    (19) remaining_translations -> SEPARATOR TEXT remaining_translations .
+
+    NEWLINE         reduce using rule 19 (remaining_translations -> SEPARATOR TEXT remaining_translations .)
+    ENTRY_SEP       reduce using rule 19 (remaining_translations -> SEPARATOR TEXT remaining_translations .)
+    $end            reduce using rule 19 (remaining_translations -> SEPARATOR TEXT remaining_translations .)
+
+
+state 50
+
+    (16) translation_list -> TEXT [ OPEN_LANG ] remaining_translations .
+
+    NEWLINE         reduce using rule 16 (translation_list -> TEXT [ OPEN_LANG ] remaining_translations .)
+    ENTRY_SEP       reduce using rule 16 (translation_list -> TEXT [ OPEN_LANG ] remaining_translations .)
+    $end            reduce using rule 16 (translation_list -> TEXT [ OPEN_LANG ] remaining_translations .)
+
+
+state 51
+
+    (18) remaining_translations -> SEPARATOR TEXT [ OPEN_LANG . ] remaining_translations
+
+    ]               shift and go to state 52
+
+
+state 52
+
+    (18) remaining_translations -> SEPARATOR TEXT [ OPEN_LANG ] . remaining_translations
+    (18) remaining_translations -> . SEPARATOR TEXT [ OPEN_LANG ] remaining_translations
+    (19) remaining_translations -> . SEPARATOR TEXT remaining_translations
+    (20) remaining_translations -> .
+
+    SEPARATOR       shift and go to state 44
+    NEWLINE         reduce using rule 20 (remaining_translations -> .)
+    ENTRY_SEP       reduce using rule 20 (remaining_translations -> .)
+    $end            reduce using rule 20 (remaining_translations -> .)
+
+    remaining_translations         shift and go to state 53
+
+state 53
+
+    (18) remaining_translations -> SEPARATOR TEXT [ OPEN_LANG ] remaining_translations .
+
+    NEWLINE         reduce using rule 18 (remaining_translations -> SEPARATOR TEXT [ OPEN_LANG ] remaining_translations .)
+    ENTRY_SEP       reduce using rule 18 (remaining_translations -> SEPARATOR TEXT [ OPEN_LANG ] remaining_translations .)
+    $end            reduce using rule 18 (remaining_translations -> SEPARATOR TEXT [ OPEN_LANG ] remaining_translations .)
+
